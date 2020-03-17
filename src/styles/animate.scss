@@ -1,0 +1,112 @@
+.zoomInRight {
+  animation: zoomInRight 1s forwards normal;
+}
+
+@keyframes zoomInRight {
+  from {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(1000px, 0, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(-10px, 0, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}
+
+.zoomOutLeft {
+  animation: zoomOutLeft 1s forwards normal;
+}
+@keyframes zoomOutLeft {
+  40% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(42px, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.1) translate3d(-2000px, 0, 0);
+    transform-origin: left center;
+  }
+}
+
+.fadeOutInLeft {
+  animation: fadeOutInLeft 2s normal;
+}
+
+@keyframes fadeOutInLeft {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    transform: translate3d(-2%, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.dropping {
+  animation-fill-mode: forwards;
+  animation-duration: 4s;
+  animation-name: parachute;
+  animation-timing-function: ease-out;
+  animation-delay: 0.1s;
+}
+
+@keyframes parachute {
+  0% {
+    transform: rotate(30deg) translate(-20px, 0%);
+  }
+  30% {
+    transform: rotate(-20deg) translate(50px, 100%);
+  }
+  60% {
+    transform: rotate(20deg) translate(10px, 155%);
+  }
+
+  100% {
+    transform: rotate(0deg) translate(155px, 230%);
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to, .fade-leave {
+  opacity: 1;
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: all .2s;
+}
+.slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.slide-enter {
+  transform: translateX(100%); 
+}
+.slide-enter-to {
+  transform: translateX(0px);
+}
+
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: all .5s;
+}
+.slide-down-enter, .slide-down-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  top: 100%;
+}
+.slide-down-enter-to, .slide-leave{
+  top: 74px;
+}
+
