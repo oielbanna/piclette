@@ -29,7 +29,7 @@
                 />
               </svg>
 
-              <h1 id="app-name" :style="{'font-size':$store.state.card?'1.3rem':''}">Piclette</h1>
+              <h1 id="app-name"  v-show="!$store.state.card">Piclette</h1>
   
           </div>
         </transition>

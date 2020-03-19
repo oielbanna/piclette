@@ -4,10 +4,7 @@
       <div class="main-container">
         <div class="image-container">
           <!-- <img ref="image" :src="image" /> -->
-          <canvas
-            ref="image"
-            style="border:1px solid #d3d3d3;"
-          >Your browser does not support the HTML5 canvas tag.</canvas>
+          <canvas ref="image">Your browser does not support the HTML5 canvas tag.</canvas>
 
           <span class="pointColor" />
         </div>
@@ -36,11 +33,15 @@ export default {
     // Zoomer
   },
   computed: {
-    // image() {
-    //   return this.$store.state.image;
-    // },
     palette() {
-      return this.$route.query.colors;
+      const formatter = require("tinycolor2");
+      let c = this.$route.query.colors;
+      c = c.sort(function(a, b) {
+        const af = formatter(a);
+        const bf = formatter(b);
+        return af.toHsv().h - bf.toHsv().h
+      });
+      return c;
     },
     initialPicker() {
       let i = 0;
@@ -54,7 +55,7 @@ export default {
   },
   data() {
     return {
-      colorMode: "rgb",
+      colorMode: "hex",
       colorOptions: [
         { text: "hex" },
         { text: "rgb" },
@@ -68,12 +69,34 @@ export default {
   },
   mounted() {
     this.$store.state.card = true;
-    var canvas = this.$refs.image
-    var ctx = canvas.getContext("2d");
-    var img = new Image()
+    var canvas = this.$refs.image;
+
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    var img = new Image();
     img.src = this.$store.state.image;
-    canvas.
-    ctx.drawImage(img, 5, 5);
+    img.onload = function() {
+      var ctx = canvas.getContext("2d");
+      canvas.width = w;
+      canvas.height = h;
+      if (this.naturalWidth > this.naturalHeight){
+        ctx.drawImage(
+          this,
+          canvas.width / 2 - w / 2,
+          canvas.height / 2 - (this.height * (w / this.width)) / 2,
+          w,
+          this.height * (w / this.width)
+        );
+      }
+      else
+        ctx.drawImage(
+          this,
+          canvas.width / 2 - (this.width * (h / this.height)) / 2,
+          canvas.height / 2 - h/ 2,
+          this.width * (h / this.height),
+          h
+        );
+    };
   },
   methods: {
     modeChanged(e) {
@@ -103,20 +126,20 @@ export default {
 
   .main-container {
     width: 70%;
-    padding: 67px 20px 20px 20px;
+    padding: 48px 20px 20px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     .image-container {
       position: relative;
-      max-height: 100%;
+      height: 80%;
       max-width: 100%;
 
+      // background: red;
+
       canvas {
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
       }
 
       .pointColor {
