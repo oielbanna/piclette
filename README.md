@@ -1,29 +1,65 @@
-# piclette2
+<br />
+<p align="center">
+  <a href="https://github.com/github_username/repo">
+    <img src="public/palette.svg" alt="Logo" width="80" height="80">
+  </a>
 
-## Project setup
+  <h3 align="center">PICLETTE</h3>
+
+  <p align="center">
+    A smart color palette assistant
+    <br />
+  :bowtie:
+      <br />
+    <a href="https://piclette.herokuapp.com/#/"><strong>Live website on Heroku!</strong></a>
+  </p>
+</p>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![ADD THE SCREENSHOT LINK NEXT TO THIS>>][product-screenshot]](https://piclette.herokuapp.com/#/)
+
+The idea is to build a website that can derive **different** color palettes from photographs. 
+My plan is to continue to update this to include accessibility feedback from <a href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/">Web Content Accessibility Guidelines 2.0</a>
+
+### Built With
+
+* [VueJS](https://vuejs.org/)
+* [Python Flask](https://palletsprojects.com/p/flask/)
+* [Opencv](https://opencv.org/)
+
+
+### Installation
+ 
+1. Clone the repo
+```sh
+git clone https://github.com/oielbanna/Piclette.git
 ```
-npm install
+2. Install yarn packages and run
+```sh
+yarn install
+yarn serve
+```
+3. Setup dev environment and run the backend
+```sh
+pipenv install
+pipenv shell
+python run.py
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Usage
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-### Run your unit tests
-```
-npm run test:unit
-```
+## Contributing
+Any contributions you make are **greatly appreciated**.
+Fork the repo, do a pull request and I'll take a look as soon as I can.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Contact
+Omar Ibrahim - [@oielbanna](https://twitter.com/Oielbanna) - oielbanna@gmail.com
+
+[product-screenshot]: https://i.imgur.com/ZizfUBp.png
