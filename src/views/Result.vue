@@ -61,48 +61,16 @@ export default {
         { text: "hsv" }
       ],
       settingMode: "Dominant Palette",
-      dominantColors: this.$route.query.colors,
-      points: this.$store.state.points
+      dominantColors: this.$route.query.colors
     };
   },
   mounted() {
     this.$store.state.card = true;
-    var canvas = this.$refs.image;
-
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight;
-    var img = new Image();
-    img.src = this.$store.state.image;
-    img.onload = function() {
-      var ctx = canvas.getContext("2d");
-      canvas.width = w;
-      canvas.height = h;
-      if (this.naturalWidth > this.naturalHeight) {
-        ctx.drawImage(
-          this,
-          canvas.width / 2 - w / 2,
-          canvas.height / 2 - (this.height * (w / this.width)) / 2,
-          w,
-          this.height * (w / this.width)
-        );
-      } else
-        ctx.drawImage(
-          this,
-          canvas.width / 2 - (this.width * (h / this.height)) / 2,
-          canvas.height / 2 - h / 2,
-          this.width * (h / this.height),
-          h
-        );
-
-      const r = 12;
-      // draw your circles!!!
-      ctx.arc(150, 350, r, 0, 2 * Math.PI, false);
-      ctx.fillStyle = "#29A6AB";
-      ctx.fill();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "white";
-      ctx.stroke();
-    };
+    this.drawImg();
+  },
+  updated() {
+    // this.drawImg();
+    console.log("Hello in updated")
   },
   methods: {
     modeChanged(e) {
@@ -120,6 +88,43 @@ export default {
     clicked(e) {
       var x = (e.target.naturalWidth / e.target.clientWidth) * e.offsetX;
       var y = (e.target.naturalHeight / e.target.clientHeight) * e.offsetY;
+    },
+    drawImg() {
+      var canvas = this.$refs.image;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      var img = new Image();
+      img.src = this.$store.state.image;
+      img.onload = function() {
+        var ctx = canvas.getContext("2d");
+        canvas.width = w;
+        canvas.height = h;
+        if (this.naturalWidth > this.naturalHeight) {
+          ctx.drawImage(
+            this,
+            canvas.width / 2 - w / 2,
+            canvas.height / 2 - (this.height * (w / this.width)) / 2,
+            w,
+            this.height * (w / this.width)
+          );
+        } else
+          ctx.drawImage(
+            this,
+            canvas.width / 2 - (this.width * (h / this.height)) / 2,
+            canvas.height / 2 - h / 2,
+            this.width * (h / this.height),
+            h
+          );
+
+        const r = 12;
+        // draw your circles!!!
+        ctx.arc(150, 350, r, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "#29A6AB";
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "white";
+        ctx.stroke();
+      };
     }
   }
 };

@@ -1,16 +1,25 @@
 <template>
   <transition name="fade">
-    <div
-      @click.stop="copyColor"
-      class="color-container"
-      :style="{'background-color':Dcolor, 'border': Border}"
-    >
-      <transition name="fade" mode="out-in">
+    <div @mouseenter="me" @mouseleave="ml" class="color-container">
+      <div
+        v-if="!hover"
+        @click.stop="copyColor"
+        
+        :style="{'background-color':Dcolor, 'border': Border}"
+      >
         <p
           class="color-code"
           :style="'color:'+ textColor"
         >{{Dcolor==='white'? 'No Color Selected': Dcolor}}</p>
-      </transition>
+      </div>
+      <div v-else class="anag-container">
+        <p
+          v-for="(c,i) in similarColors"
+          :key="i"
+          @click.stop="copyColor(c)"
+          :style="{'background-color':c, 'border': Border}"
+        >{{c}}</p>
+      </div>
     </div>
   </transition>
 </template>
@@ -33,22 +42,17 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      hover: false
+    };
+  },
   computed: {
     Dcolor() {
       if (this.$props.color === "") return "white";
 
       const c = formatter(this.$props.color);
-      switch (this.mode.toLowerCase()) {
-        case "rgb":
-          return c.toRgbString();
-        case "hsl":
-          return c.toHslString();
-        case "hsv":
-          return c.toHsvString();
-        case "hex":
-        default:
-          return c.toHexString().toUpperCase();
-      }
+      return this.formatMode(c);
     },
     textColor() {
       if (this.$props.color === "") return "#2b2b2b";
@@ -59,20 +63,51 @@ export default {
     Border() {
       if (this.$props.color === "") return "dashed 1px #2b2b2b";
       else return "none";
+    },
+    similarColors() {
+      const colors = formatter(this.Dcolor)
+        .analogous()
+        .splice(0, 3);
+      console.log(colors);
+      return colors.map(c => this.formatMode(c));
     }
   },
   methods: {
-    copyColor() {
+    copyColor(c) {
+      const color = c === undefined ? this.Dcolor : c;
       // success
-      if (this.$clipboard(this.Dcolor)) {
-        this.$store.state.cardBg = this.Dcolor;
-        this.$toasted.show(`Copied ${this.Dcolor}`, {
+      if (this.$clipboard(color)) {
+        this.$store.state.cardBg = color;
+        this.$toasted.show(`Copied ${color}`, {
           theme: "bubble",
           position: "bottom-center",
           duration: 1200,
           keepOnHover: true
         });
       }
+    },
+    formatMode(tiny) {
+      switch (this.mode.toLowerCase()) {
+        case "rgb":
+          return tiny.toRgbString();
+        case "hsl":
+          return tiny.toHslString();
+        case "hsv":
+          return tiny.toHsvString();
+        case "hex":
+        default:
+          return tiny.toHexString().toUpperCase();
+      }
+    },
+
+
+    me(x){
+      this.hover = true
+      console.log("enter: ", x)
+    },
+    ml(x){
+      this.hover = false
+      console.log("leave: ", x)
     }
   }
 };
@@ -100,8 +135,30 @@ export default {
     font-size: 0.8rem;
   }
 
-  &:hover {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  // &:hover {
+  //   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  // }
+}
+
+.anag-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 15px;
+
+  flex-direction: row;
+  padding: 0px;
+  flex-grow: 1;
+
+  p {
+    height: 100%;
+    width: 100%;
+    margin: 0 2px 0 4px;
+    line-height: 42px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+    font-size: 0.2em;
   }
 }
 </style>

@@ -10,8 +10,7 @@ export default new Vuex.Store({
     card: false,
     loading: false,
     image: '',
-    cardBg: '',
-    points: []
+    cardBg: ''
   },
   mutations: {
   },
