@@ -5,8 +5,6 @@
         <div class="image-container">
           <!-- <img ref="image" :src="image" /> -->
           <canvas ref="image">Your browser does not support the HTML5 canvas tag.</canvas>
-
-          <span class="pointColor" />
         </div>
       </div>
       <div class="side-container">
@@ -39,7 +37,7 @@ export default {
       c = c.sort(function(a, b) {
         const af = formatter(a);
         const bf = formatter(b);
-        return af.toHsv().h - bf.toHsv().h
+        return af.toHsv().h - bf.toHsv().h;
       });
       return c;
     },
@@ -79,7 +77,7 @@ export default {
       var ctx = canvas.getContext("2d");
       canvas.width = w;
       canvas.height = h;
-      if (this.naturalWidth > this.naturalHeight){
+      if (this.naturalWidth > this.naturalHeight) {
         ctx.drawImage(
           this,
           canvas.width / 2 - w / 2,
@@ -87,15 +85,23 @@ export default {
           w,
           this.height * (w / this.width)
         );
-      }
-      else
+      } else
         ctx.drawImage(
           this,
           canvas.width / 2 - (this.width * (h / this.height)) / 2,
-          canvas.height / 2 - h/ 2,
+          canvas.height / 2 - h / 2,
           this.width * (h / this.height),
           h
         );
+
+      const r = 12;
+      // draw your circles!!!
+      ctx.arc(150, 350, r, 0, 2 * Math.PI, false);
+      ctx.fillStyle = "#29A6AB";
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "white";
+      ctx.stroke();
     };
   },
   methods: {
@@ -142,22 +148,22 @@ export default {
         height: 100%;
       }
 
-      .pointColor {
-        display: none;
-        position: absolute;
-        background: red;
-        width: 34px;
-        height: 34px;
-        top: 0;
-        left: 0;
-        border: solid 2px white;
-        border-radius: 50%;
-        z-index: 1;
-        cursor: crosshair;
-        pointer-events: auto;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-        box-sizing: border-box;
-      }
+      // .pointColor {
+      //   // display: none;
+      //   position: absolute;
+      //   background: red;
+      //   width: 24px;
+      //   height: 24px;
+      //   top: 0;
+      //   left: 0;
+      //   border: solid 2px white;
+      //   border-radius: 50%;
+      //   z-index: 1;
+      //   cursor: crosshair;
+      //   pointer-events: auto;
+      //   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+      //   box-sizing: border-box;
+      // }
     }
   }
 

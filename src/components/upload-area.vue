@@ -81,7 +81,7 @@ export default {
       const { getPaletteFromURL } = require("color-thief-node");
       const formatter = require("tinycolor2");
       (async () => {
-        let response = await getPaletteFromURL(imageURL, 8);
+        let response = await getPaletteFromURL(imageURL, 7, 1);
         // changing format and getting the brightest color
         let i = 0;
         let found = false;
