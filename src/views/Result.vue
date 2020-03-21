@@ -21,7 +21,6 @@
 <script>
 import ColorStrip from "@/components/StripColor";
 import Picker from "@/components/Picker";
-// import Zoomer from "@/components/Zoomer";
 
 export default {
   name: "result",

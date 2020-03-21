@@ -4,7 +4,7 @@
       class="home"
       :class="$store.state.paletteMode? 'palette' : 'dropper'"
       :style="{ 'background-color': $store.state.paletteMode? '#ba6d57':'#7FB0AF',
-        'background': $store.state.card? $store.state.cardBg : 'url(https://i.imgur.com/smHDpEy.png), linear-gradient(140deg, rgb(85, 163, 160) 25%,  rgb(230, 255, 254))'
+        'background': $store.state.card? $store.state.cardBg :  'linear-gradient(140deg, rgb(214, 186, 174) 0%, rgb(245, 242, 233))' // 'url(https://i.imgur.com/smHDpEy.png), linear-gradient(140deg, rgb(85, 163, 160) 25%,  rgb(230, 255, 254))'
       }"
       @dragover="entering"
       @dragleave="leaving"
