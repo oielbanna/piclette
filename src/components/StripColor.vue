@@ -1,17 +1,14 @@
 <template>
-  <transition name="fade">
-    <div @mouseenter="me" @mouseleave="ml" class="color-container">
-      <div
-        v-if="!hover"
-        @click.stop="copyColor"
-        
-        :style="{'background-color':Dcolor, 'border': Border}"
-      >
+  <div @mouseenter="me" @mouseleave="ml" class="color-container" :style="{'color': textColor}">
+    <!-- <transition name="fade"> -->
+      <template v-if="!hover">
         <p
           class="color-code"
-          :style="'color:'+ textColor"
+          :style="{'background-color':Dcolor, 'border': Border}"
+          @click.stop="copyColor"
         >{{Dcolor==='white'? 'No Color Selected': Dcolor}}</p>
-      </div>
+      </template>
+
       <div v-else class="anag-container">
         <p
           v-for="(c,i) in similarColors"
@@ -20,8 +17,8 @@
           :style="{'background-color':c, 'border': Border}"
         >{{c}}</p>
       </div>
-    </div>
-  </transition>
+    <!-- </transition> -->
+  </div>
 </template>
 
 <script>
@@ -68,8 +65,7 @@ export default {
       const colors = formatter(this.Dcolor)
         .analogous()
         .splice(0, 3);
-      console.log(colors);
-      return colors.map(c => this.formatMode(c));
+      return colors.map(c => c.toHexString());
     }
   },
   methods: {
@@ -99,15 +95,11 @@ export default {
           return tiny.toHexString().toUpperCase();
       }
     },
-
-
-    me(x){
-      this.hover = true
-      console.log("enter: ", x)
+    me(x) {
+      this.hover = true;
     },
-    ml(x){
-      this.hover = false
-      console.log("leave: ", x)
+    ml(x) {
+      this.hover = false;
     }
   }
 };
@@ -121,9 +113,8 @@ export default {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  padding: 20px 0px;
+  // padding: 20px 0px;
   margin-bottom: 15px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
 
   &:last-child {
     margin-bottom: 0px;
@@ -133,6 +124,8 @@ export default {
     margin: 0px;
     font-weight: bold;
     font-size: 0.8rem;
+    line-height: 60px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
   }
 
   // &:hover {
@@ -146,7 +139,6 @@ export default {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  margin-bottom: 15px;
 
   flex-direction: row;
   padding: 0px;
@@ -156,7 +148,7 @@ export default {
     height: 100%;
     width: 100%;
     margin: 0 2px 0 4px;
-    line-height: 42px;
+    line-height: 60px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
     font-size: 0.2em;
   }

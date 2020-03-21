@@ -176,7 +176,7 @@ export default {
     width: 30%;
     background-color: white;
     box-shadow: -3px 0px 7px -4px rgba(0, 0, 0, 0.2);
-    text-align: left;
+    text-align: center;
     padding: 1rem 1.3rem;
     display: flex;
     flex-direction: column;
