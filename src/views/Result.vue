@@ -66,6 +66,7 @@ export default {
   mounted() {
     this.$store.state.card = true;
     this.drawImg();
+    window.addEventListener('resize', this.drawImage);
   },
   updated() {
     // this.drawImg();
@@ -89,11 +90,13 @@ export default {
       var y = (e.target.naturalHeight / e.target.clientHeight) * e.offsetY;
     },
     drawImg() {
-      var canvas = this.$refs.image;
+      console.log("drawing: ", this.$store.state.image)
+      let canvas = this.$refs.image;
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       var img = new Image();
       img.src = this.$store.state.image;
+      img.crossOrigin = "";
       img.onload = function() {
         var ctx = canvas.getContext("2d");
         canvas.width = w;
@@ -120,7 +123,7 @@ export default {
         ctx.arc(150, 350, r, 0, 2 * Math.PI, false);
         ctx.fillStyle = "#29A6AB";
         ctx.fill();
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1;
         ctx.strokeStyle = "white";
         ctx.stroke();
       };
@@ -142,7 +145,7 @@ export default {
 
     .image-container {
       position: relative;
-      height: 80%;
+      height: 85%;
       max-width: 100%;
 
       // background: red;

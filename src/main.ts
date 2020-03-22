@@ -9,6 +9,10 @@ import Clipboard from 'v-clipboard'
 
 import Toasted from 'vue-toasted'
 
+import paper from 'paper'
+import PaperVueify from 'paper-vueify'
+
+Vue.use(PaperVueify, paper)
 Vue.use(Clipboard)
 Vue.use(Toasted)
 

@@ -6,7 +6,7 @@
         v-show="!$store.state.card"
         :src="require('@/assets/logo.svg')"
       />
-      <a @click="howtoToggle = !howtoToggle">HOW DOES THIS WORK?</a>
+      <a @click="random">HOW DOES THIS WORK?</a>
     </header>
     <div class="home-container">
       <h1 key="title">
@@ -44,8 +44,51 @@ export default {
     };
   },
   created() {
-    this.$store.state.card = false
+    this.$store.state.card = false;
   },
+  methods: {
+    random() {
+      const Unsplash = require("unsplash-js").default;
+      const toJson = require("unsplash-js").toJson;
+      const { getPaletteFromURL } = require("color-thief-node");
+      const formatter = require("tinycolor2");
+
+      const unsplash = new Unsplash({
+        accessKey: "0rrlCtSZzJ78-DVRI4RzjCfvzD2jgVOe4meX7KLed7A",
+        secret: "FsiRchukT4wPe1bcy0V5bV0J9ZC2nGkxei9zUi8SxaA"
+      });
+
+      unsplash.photos
+        .getRandomPhoto({ featured: true })
+        .then(toJson)
+        .then(json => {
+          const imageURL = json.urls.regular;
+
+          (async () => {
+            console.log(json, imageURL);
+            let response = await getPaletteFromURL(imageURL, 7, 5);
+            // changing format and getting the brightest color
+            let i = 0;
+            let found = false;
+            response = response.map((color, idx) => {
+              var c = formatter(`rgb (${color[0]},${color[1]},${color[2]})`);
+              if (c.getBrightness() > 70 && !found) {
+                i = idx;
+                found = true;
+              }
+              return c.toHexString();
+            });
+            this.$store.state.cardBg = response[i];
+            this.$store.state.image = imageURL;
+            this.$store.state.loading = false;
+            this.$router.push({
+              path: "/result",
+              query: { colors: response }
+            });
+          })();
+        });
+    }
+  }
 };
 </script>
 
