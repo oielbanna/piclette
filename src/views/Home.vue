@@ -65,7 +65,7 @@ export default {
           const imageURL = json.urls.regular;
 
           (async () => {
-            console.log(json, imageURL);
+            // console.log(json, imageURL);
             let response = await getPaletteFromURL(imageURL, 7, 5);
             // changing format and getting the brightest color
             let i = 0;

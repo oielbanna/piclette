@@ -70,7 +70,7 @@ export default {
   },
   updated() {
     // this.drawImg();
-    console.log("Hello in updated")
+    // console.log("Hello in updated")
   },
   methods: {
     modeChanged(e) {
@@ -90,7 +90,7 @@ export default {
       var y = (e.target.naturalHeight / e.target.clientHeight) * e.offsetY;
     },
     drawImg() {
-      console.log("drawing: ", this.$store.state.image)
+      // console.log("drawing: ", this.$store.state.image)
       let canvas = this.$refs.image;
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
