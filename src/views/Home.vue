@@ -15,17 +15,6 @@
       </h1>
       <h4 key="subtitle">Well...yeah it is, but with a twist.</h4>
       <Dropzone ref="dropzone" />
-      <transition name="fade">
-        <div v-show="howtoToggle" class="howto-container">
-          <h4>Piclette can help you create amazing color palettes from any pictures you have.</h4>
-          <h4>Simply drag your image and it will do the rest of the work</h4>
-          <img :src="require('@/assets/hover.gif')" />
-          <h4>Check out some samples below</h4>
-          <img :src="require('@/assets/showcase1.png')" />
-          <img :src="require('@/assets/showcase2.png')" />
-          <img :src="require('@/assets/showcase3.png')" />
-        </div>
-      </transition>
     </div>
   </div>
 </template>
@@ -66,7 +55,7 @@ export default {
 
           (async () => {
             // console.log(json, imageURL);
-            let response = await getPaletteFromURL(imageURL, 7, 5);
+            let response = await getPaletteFromURL(imageURL, 4, 5);
             // changing format and getting the brightest color
             let i = 0;
             let found = false;

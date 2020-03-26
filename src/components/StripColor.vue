@@ -150,7 +150,8 @@ export default {
     margin: 0 2px 0 4px;
     line-height: 60px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
-    font-size: 0.2em;
+    font-size: 0.8em;
+    font-weight: 800;
   }
 }
 </style>

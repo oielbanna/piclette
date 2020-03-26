@@ -6,15 +6,13 @@ import store from './store'
 import '@/styles/index.scss' // global css
 
 import Clipboard from 'v-clipboard'
-
-import Toasted from 'vue-toasted'
-
-// import paper from 'paper'
-// import PaperVueify from 'paper-vueify'
-
-// Vue.use(PaperVueify, paper)
 Vue.use(Clipboard)
+import Toasted from 'vue-toasted'
 Vue.use(Toasted)
+import VueKonva from 'vue-konva'
+Vue.use(VueKonva)
+
+
 
 Vue.config.productionTip = false
 

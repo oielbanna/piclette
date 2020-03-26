@@ -2,9 +2,27 @@
   <transition name="slide">
     <div class="result-container">
       <div class="main-container">
-        <div class="image-container">
+        <div class="image-container" id="imgContainer" ref="imgContainer">
           <!-- <img ref="image" :src="image" /> -->
-          <canvas ref="image">Your browser does not support the HTML5 canvas tag.</canvas>
+          <v-stage :config="canvasConfig">
+            <v-layer>
+              <v-image :config="{image: image}" ref="image" />
+              <v-circle
+                key="circle"
+                @dragstart="handleDragStart"
+                :config="{
+                  x: 100,
+                  y: 100,
+                  radius: 13,
+                  fill: 'red',
+                  stroke: 'white',
+                  strokeWidth: 1,
+                  draggable: true,
+                }"
+              ></v-circle>
+            </v-layer>
+          </v-stage>
+          <!-- <canvas ref="image">Your browser does not support the HTML5 canvas tag.</canvas> -->
         </div>
       </div>
       <div class="side-container">
@@ -27,7 +45,6 @@ export default {
   components: {
     ColorStrip,
     Picker
-    // Zoomer
   },
   computed: {
     palette() {
@@ -60,17 +77,22 @@ export default {
         { text: "hsv" }
       ],
       settingMode: "Dominant Palette",
-      dominantColors: this.$route.query.colors
+      dominantColors: this.$route.query.colors,
+      image: null,
+      canvasConfig: {
+        width: 780,
+        height: 400
+      }
     };
   },
   mounted() {
     this.$store.state.card = true;
-    this.drawImg();
-    window.addEventListener('resize', this.drawImage);
+    this.$nextTick(() => {
+      this.setImage();
+    });
   },
   updated() {
-    // this.drawImg();
-    // console.log("Hello in updated")
+    // this.setImage();
   },
   methods: {
     modeChanged(e) {
@@ -117,17 +139,46 @@ export default {
             this.width * (h / this.height),
             h
           );
-
-        const r = 12;
-        // draw your circles!!!
-        ctx.arc(150, 350, r, 0, 2 * Math.PI, false);
-        ctx.fillStyle = "#29A6AB";
-        ctx.fill();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = "white";
-        ctx.stroke();
+      };
+    },
+    handleDragStart(x) {
+      console.log(x);
+      console.log(this.$refs.image)
+      // this.isDragging = true;
+    },
+    handleDragEnd() {
+      // this.isDragging = false;
+    },
+    setImage() {
+      // TODO why isnt refs working here???
+      // const im = document.getElementById("imgContainer");
+      const im = this.$refs.imgContainer;
+      console.log(im.clientHeight)
+      const image = new Image();
+      image.src = this.$store.state.image;
+      image.onload = () => {
+        let scale = 1;
+        if (image.naturalWidth > image.naturalHeight) {
+          scale = im.clientWidth / image.naturalWidth; // assuming image is always bigger than client width
+        } else {
+          scale = im.clientHeight / image.naturalHeight;
+        }
+        const w = image.naturalWidth * scale;
+        const h = image.naturalHeight * scale;
+        this.canvasConfig.width = image.width = w;
+        this.canvasConfig.height = image.height = h;
+        this.image = image;
       };
     }
+    // getWidth() {
+    //   const im = this.$refs.imgContainer;
+    //   console.log(im, this.$refs)
+    //   return im.clientWidth;
+    // },
+    // getHeight() {
+    //   const im = this.$refs.imgContainer;
+    //   return im.clientHeight;
+    // }
   }
 };
 </script>
@@ -147,6 +198,8 @@ export default {
       position: relative;
       height: 85%;
       max-width: 100%;
+      display: flex;
+      justify-content: center;
 
       // background: red;
 
