@@ -8,13 +8,15 @@
             <v-layer>
               <v-image :config="{image: image}" ref="image" />
               <v-circle
-                key="circle"
-                @dragstart="handleDragStart"
+                v-for="(c,i) in palette"
+                :key="i"
+                :ref="'c'+i"
+                @dragmove="handleDrag"
                 :config="{
-                  x: 100,
+                  x: 100 + (i * 20),
                   y: 100,
                   radius: 13,
-                  fill: 'red',
+                  fill: c,
                   stroke: 'white',
                   strokeWidth: 1,
                   draggable: true,
@@ -26,7 +28,7 @@
         </div>
       </div>
       <div class="side-container">
-        <h4>{{settingMode}}</h4>
+        <h4>{{settingMode}} Palette</h4>
         <div style="margin-bottom: 5px;flex-grow:1;display: flex;flex-direction: column;">
           <color-strip v-for="(c,i) in palette" :mode="colorMode" :key="i" :color="c" />
         </div>
@@ -49,7 +51,12 @@ export default {
   computed: {
     palette() {
       const formatter = require("tinycolor2");
-      let c = this.$route.query.colors;
+      var c = [];
+      if (this.settingMode === "Dominant") {
+        c = this.dominantColors;
+      } else {
+        c = this.customPalette;
+      }
       c = c.sort(function(a, b) {
         const af = formatter(a);
         const bf = formatter(b);
@@ -76,8 +83,9 @@ export default {
         { text: "hsl" },
         { text: "hsv" }
       ],
-      settingMode: "Dominant Palette",
+      settingMode: "Dominant",
       dominantColors: this.$route.query.colors,
+      customPalette: this.$route.query.colors,
       image: null,
       canvasConfig: {
         width: 780,
@@ -87,9 +95,13 @@ export default {
   },
   mounted() {
     this.$store.state.card = true;
-    this.$nextTick(() => {
+    setTimeout(() => {
       this.setImage();
-    });
+    }, 200);
+
+    // this.$nextTick(()=>{
+    //   this.setImage();
+    // })
   },
   updated() {
     // this.setImage();
@@ -111,49 +123,32 @@ export default {
       var x = (e.target.naturalWidth / e.target.clientWidth) * e.offsetX;
       var y = (e.target.naturalHeight / e.target.clientHeight) * e.offsetY;
     },
-    drawImg() {
-      // console.log("drawing: ", this.$store.state.image)
-      let canvas = this.$refs.image;
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      var img = new Image();
-      img.src = this.$store.state.image;
-      img.crossOrigin = "";
-      img.onload = function() {
-        var ctx = canvas.getContext("2d");
-        canvas.width = w;
-        canvas.height = h;
-        if (this.naturalWidth > this.naturalHeight) {
-          ctx.drawImage(
-            this,
-            canvas.width / 2 - w / 2,
-            canvas.height / 2 - (this.height * (w / this.width)) / 2,
-            w,
-            this.height * (w / this.width)
-          );
-        } else
-          ctx.drawImage(
-            this,
-            canvas.width / 2 - (this.width * (h / this.height)) / 2,
-            canvas.height / 2 - h / 2,
-            this.width * (h / this.height),
-            h
-          );
-      };
-    },
-    handleDragStart(x) {
-      console.log(x);
-      console.log(this.$refs.image)
+    handleDrag(evt) {
+      // console.log(evt)
+      const formatter = require("tinycolor2");
+      const oldColor = evt.target.attrs.fill;
+      this.settingMode = "Custom";
+      const x = Math.max(0, evt.target.attrs.x);
+      const y = Math.max(0, evt.target.attrs.y);
+      // console.log(x, y)
+      const { data } = this.$refs.image
+        .getNode()
+        .getContext()
+        ._context.getImageData(x, y, 1, 1);
+
+      // console.log(data)
+      const c = formatter({ r: data[0], g: data[1], b: data[2], a: data[3] });
+      // console.log(this.customPalette[0], c.toHexString());
+      const idx = this.customPalette.findIndex(rgb => rgb === oldColor);
+      this.customPalette.splice(idx, 1, c.toHexString());
+
+      // evt.target.VueComponent.config.fill = c.toHexString();
+      // this.customPalette.push(c.toHexString());
+      // this.customPalette[5] = "red";
       // this.isDragging = true;
     },
-    handleDragEnd() {
-      // this.isDragging = false;
-    },
     setImage() {
-      // TODO why isnt refs working here???
-      // const im = document.getElementById("imgContainer");
       const im = this.$refs.imgContainer;
-      console.log(im.clientHeight)
       const image = new Image();
       image.src = this.$store.state.image;
       image.onload = () => {
@@ -170,15 +165,6 @@ export default {
         this.image = image;
       };
     }
-    // getWidth() {
-    //   const im = this.$refs.imgContainer;
-    //   console.log(im, this.$refs)
-    //   return im.clientWidth;
-    // },
-    // getHeight() {
-    //   const im = this.$refs.imgContainer;
-    //   return im.clientHeight;
-    // }
   }
 };
 </script>
