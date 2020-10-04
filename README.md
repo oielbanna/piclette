@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/github_username/repo">
-    <img src="public/palette.svg" alt="Logo" width="80" height="80">
+    <img src="src/assets/palette.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">PICLETTE</h3>
@@ -11,7 +11,7 @@
     <br />
   :bowtie:
       <br />
-    <a href="https://piclette.herokuapp.com/#/"><strong>Live website on Heroku!</strong></a>
+    <a href="https://piclette.netlify.app/"><strong>Live website on Heroku!</strong></a>
   </p>
 </p>
 
