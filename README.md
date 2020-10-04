@@ -60,6 +60,6 @@ Fork the repo, do a pull request and I'll take a look as soon as I can.
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
-Omar Ibrahim - [@oielbanna](https://twitter.com/Oielbanna) - oielbanna@gmail.com
+Omar Ibrahim - [@omarcodess](https://twitter.com/omarcodess) - oielbanna@gmail.com
 
 [product-screenshot]: https://i.imgur.com/ZizfUBp.png
