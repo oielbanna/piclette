@@ -11,7 +11,7 @@
     <br />
   :bowtie:
       <br />
-    <a href="https://piclette.netlify.app/"><strong>Live website on Heroku!</strong></a>
+    <a href="https://piclette.netlify.app/"><strong>Live app hosted on Netlify!</strong></a>
   </p>
 </p>
 
@@ -22,12 +22,6 @@
 
 The idea is to build a website that can derive **different** color palettes from photographs. 
 My plan is to continue to update this to include accessibility feedback from <a href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/">Web Content Accessibility Guidelines 2.0</a>
-
-### Built With
-
-* [VueJS](https://vuejs.org/)
-* [Python Flask](https://palletsprojects.com/p/flask/)
-* [Opencv](https://opencv.org/)
 
 
 ### Installation
@@ -41,12 +35,6 @@ git clone https://github.com/oielbanna/Piclette.git
 yarn install
 yarn serve
 ```
-3. Setup dev environment and run the backend
-```sh
-pipenv install
-pipenv shell
-python run.py
-```
 
 ## Usage
 
@@ -54,7 +42,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 ## Contributing
 Any contributions you make are **greatly appreciated**.
-Fork the repo, do a pull request and I'll take a look as soon as I can.
+Fork the repo, create a pull request and I'll take a look as soon as I can.
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
